@@ -58,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+        captureButton.post(new Runnable(){
+            @Override
+            public void run() {
+                captureButton.performClick();
+            }
+        });
 
         // Create our Preview view and set it as the content of our activity.
         Log.d(TAG, "0000   main 001111");
@@ -67,6 +73,23 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "0000   main 003");
         preview.addView(mPreview);
         Log.d(TAG, "0000   main 004");
+        //try{ Thread.sleep(2000); }catch(InterruptedException e){ }
+        //captureButton.performClick();
+        //try{ Thread.sleep(10000); }catch(InterruptedException e){ }
+        //Log.d(TAG, "0000   main 0044");
+//
+        //mCamera.takePicture(null, null, mPicture);
+        //try{ Thread.sleep(10000); }catch(InterruptedException e){ }
+        //Log.d(TAG, "0000   main 005");
+//
+        //mCamera.takePicture(null, null, mPicture);
+        //try{ Thread.sleep(10000); }catch(InterruptedException e){ }
+        //Log.d(TAG, "0000   main 006");
+//
+        //mCamera.takePicture(null, null, mPicture);
+        //try{ Thread.sleep(10000); }catch(InterruptedException e){ }
+        //Log.d(TAG, "0000   main 007");
+        Log.d(TAG, "0000   main 007 done");
     }
 
     private Camera.PictureCallback mPicture = new android.hardware.Camera.PictureCallback() {
