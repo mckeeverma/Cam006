@@ -7,6 +7,7 @@ import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -52,21 +53,18 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // get an image from the camera
-                        mCamera.takePicture(null, null, mPicture);
-                        //captureButton.setText("abc");
+                        new Thread(new Runnable() {
+                            public void run() {
+                                Log.d(TAG, "0000 thread   button clickListener 1");
+                                mCamera.takePicture(null, null, mPicture);
+                                Log.d(TAG, "0000 thread  button clickListener 2");
+                            }
+                        }).start();
                     }
                 }
         );
-        captureButton.post(new Runnable(){
-            @Override
-            public void run() {
-                captureButton.performClick();
-            }
-        });
-
         // Create our Preview view and set it as the content of our activity.
-        Log.d(TAG, "0000   main 001111");
+        Log.d(TAG, "0000   main 001_____!!!");
         CameraPreview mPreview = new CameraPreview(this, mCamera);
         Log.d(TAG, "0000   main 002");
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
@@ -89,40 +87,50 @@ public class MainActivity extends AppCompatActivity {
         //mCamera.takePicture(null, null, mPicture);
         //try{ Thread.sleep(10000); }catch(InterruptedException e){ }
         //Log.d(TAG, "0000   main 007");
-        Log.d(TAG, "0000   main 007 done");
-    }
-
-    private Camera.PictureCallback mPicture = new android.hardware.Camera.PictureCallback() {
-
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-            Log.d(TAG, "picture taken");
-            captureButton.setText("def");
-            mCamera.stopPreview();
-            mCamera.startPreview();
-            //mCamera = getCameraInstance();
-
-            File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-            if (pictureFile == null) {
-                Log.d(TAG, "Error creating media file, check storage permissions: "); // + e.getMessage());
-                return;
+        captureButton.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "0000___   button post 1");
+                captureButton.performClick();
+                Log.d(TAG, "0000___   button post 2");
+                //captureButton.postDelayed(this, 3000);
             }
-
-            try {
-                FileOutputStream fos = new FileOutputStream(pictureFile);
-                fos.write(data);
-                fos.close();
-            } catch (FileNotFoundException e) {
-                Log.d(TAG, "File not found: " + e.getMessage());
-            } catch (IOException e) {
-                Log.d(TAG, "Error accessing file: " + e.getMessage());
-            }
+        });
+        Log.d(TAG,"0000   main 007 done");
         }
-    };
 
-    /**
-     * Check if this device has a camera
-     */
+        private Camera.PictureCallback mPicture = new android.hardware.Camera.PictureCallback() {
+
+            @Override
+            public void onPictureTaken(byte[] data, Camera camera) {
+                Log.d(TAG, "picture taken");
+                captureButton.setText("def");
+                mCamera.stopPreview();
+                mCamera.startPreview();
+                //mCamera = getCameraInstance();
+
+                File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+                if (pictureFile == null) {
+                    Log.d(TAG, "Error creating media file, check storage permissions: "); // + e.getMessage());
+                    return;
+                }
+
+                try {
+                    FileOutputStream fos = new FileOutputStream(pictureFile);
+                    fos.write(data);
+                    fos.close();
+                } catch (FileNotFoundException e) {
+                    Log.d(TAG, "File not found: " + e.getMessage());
+                } catch (IOException e) {
+                    Log.d(TAG, "Error accessing file: " + e.getMessage());
+                }
+            }
+        };
+
+        /**
+         * Check if this device has a camera
+         */
+
     private boolean checkCameraHardware(Context context) {
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             // this device has a camera
@@ -195,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("ERROR", "Card not mounted");
         }
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() + "/cats006/");
-        Log.d(TAG, "path directory is: " + Environment.getExternalStorageDirectory().getPath() );
+        Log.d(TAG, "path directory is: " + Environment.getExternalStorageDirectory().getPath());
 
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {

@@ -17,16 +17,11 @@ import java.io.IOException;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder mHolder;
     private Camera mCamera;
-    String TAG = "marc123";
+    String TAG = "marc123__11";
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
         mCamera = camera;
-        Camera.Parameters parameters = camera.getParameters();
-        parameters.set("jpeg-quality", 70);
-        parameters.setPictureFormat(PixelFormat.JPEG);
-        //parameters.setPictureSize(800, 600);
-        camera.setParameters(parameters);
 
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
@@ -72,7 +67,66 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         // set preview size and make any resize, rotate or
         // reformatting changes here
-
+        //-----------------------------------------------------------------------------
+        Camera.Parameters parameters = mCamera.getParameters();
+        Log.d(TAG, "Camera ______________ settings");
+        //-----------------------------------------------------------------------------
+        try {
+            parameters = mCamera.getParameters();
+        } catch (Exception e) {
+            Log.d(TAG, "Error on camera getParameters");
+        }
+        Log.d(TAG, "okay: camera getParameters");
+        //-----------------------------------------------------------------------------
+        try {
+            parameters.setRotation(90);
+        } catch (Exception e) {
+            Log.d(TAG, "Error on parameters.setRotation");
+        }
+        Log.d(TAG, "okay: parameters.setRotation");
+        //-----------------------------------------------------------------------------
+        try {
+            parameters.set("jpeg-quality", 40);
+        } catch (Exception e) {
+            Log.d(TAG, "Error on parameters.set(jpeg-quality...)");
+        }
+        Log.d(TAG, "okay: parameters.set(jpeg-quality...)");
+        //-----------------------------------------------------------------------------
+        try {
+            parameters.setPictureFormat(PixelFormat.JPEG);
+        } catch (Exception e) {
+            Log.d(TAG, "Error on parameters.setPictureFormat(PixelFormat.JPEG)");
+        }
+        Log.d(TAG, "okay: parameters.setPictureFormat(PixelFormat.JPEG)");
+        //-----------------------------------------------------------------------------
+        try {
+            parameters.setPictureSize(320, 240);
+        } catch (Exception e) {
+            Log.d(TAG, "Error on parameters.setPictureSize()");
+        }
+        Log.d(TAG, "okay: parameters.setPictureSize(...)");
+        //-----------------------------------------------------------------------------
+        try {
+            parameters.setFlashMode(parameters.FLASH_MODE_ON);
+        } catch (Exception e) {
+            Log.d(TAG, "Error on parameters.setFlashMode(parameters.FLASH_MODE_ON)");
+        }
+        Log.d(TAG, "okay: parameters.setFlashMode(parameters.FLASH_MODE_ON)");
+        //-----------------------------------------------------------------------------
+        try {
+            mCamera.setParameters(parameters);
+        } catch (Exception e) {
+            Log.d(TAG, "Error on mCamera.setParameters(parameters)");
+        }
+        Log.d(TAG, "okay: mCamera.setParameters(parameters)");
+        //-----------------------------------------------------------------------------
+        try {
+            mCamera.setDisplayOrientation(90);
+        } catch (Exception e) {
+            Log.d(TAG, "Error on mCamera.setDisplayOrientation");
+        }
+        Log.d(TAG, "okay: mCamera.setDisplayOrientation");
+        //-----------------------------------------------------------------------------
         // start preview with new settings
         try {
             mCamera.setPreviewDisplay(mHolder);
