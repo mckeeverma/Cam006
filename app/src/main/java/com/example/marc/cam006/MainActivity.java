@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d("ERROR", "Card not mounted");
         }
-        File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() + "/cameraSpeed/");
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() + "/cats006/");
         Log.d(TAG, "path directory is: " + Environment.getExternalStorageDirectory().getPath() );
 
         if (!mediaStorageDir.exists()) {
